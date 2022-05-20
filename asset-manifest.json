@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/countdown-timer/static/css/main.28acaaff.css",
+    "main.js": "/countdown-timer/static/js/main.fd0b9221.js",
+    "static/js/787.ffa0369f.chunk.js": "/countdown-timer/static/js/787.ffa0369f.chunk.js",
+    "index.html": "/countdown-timer/index.html",
+    "main.28acaaff.css.map": "/countdown-timer/static/css/main.28acaaff.css.map",
+    "main.fd0b9221.js.map": "/countdown-timer/static/js/main.fd0b9221.js.map",
+    "787.ffa0369f.chunk.js.map": "/countdown-timer/static/js/787.ffa0369f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28acaaff.css",
+    "static/js/main.fd0b9221.js"
+  ]
+}
