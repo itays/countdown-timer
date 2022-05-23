@@ -1,26 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState, useCallback } from "react";
+import { Video } from "./Video";
+import { Form } from "./Form";
+import { CountDown } from "./CountDown";
 
-function App() {
+const App: React.FC = () => {
+  const [title, setTitle] = useState<string | null>();
+  const [date, setDate] = useState<number | null>();
+
+  useEffect(() => {
+    if (!localStorage.getItem("title")) return;
+    if (
+      localStorage.getItem("date") &&
+      parseInt(localStorage.getItem("date")!) < new Date().getTime()
+    ) {
+      localStorage.removeItem("title");
+      localStorage.removeItem("date");
+      return;
+    }
+    setTitle(localStorage.getItem("title")!);
+    setDate(+localStorage.getItem("date")!);
+  }, []);
+
+  const onReset = useCallback(() => {
+    clearStorage();
+    setDate(null);
+    setTitle(null);
+  }, []);
+
+  const onFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    const title = (e.currentTarget.title as unknown as HTMLInputElement).value;
+    const newDate = new Date(
+      (e.currentTarget.date as unknown as HTMLInputElement).value
+    ).getTime();
+    setTitle(title);
+    setDate(newDate);
+    localStorage.setItem("title", title);
+    localStorage.setItem("date", `${newDate}`);
+  }, []);
+
+  function renderContent() {
+    if (!date) {
+      return <Form onFormSubmit={onFormSubmit} />;
+    }
+    return <CountDown onReset={onReset} date={date} title={title!} />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="flex justify-center">
+      <Video />
+      {renderContent()}
+    </main>
   );
+};
+
+function clearStorage() {
+  localStorage.removeItem("title");
+  localStorage.removeItem("date");
 }
 
 export default App;
